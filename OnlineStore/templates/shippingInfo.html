@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+    </head>
+    <header>
+        <title>Online Store</title>
+    </header>
+    <body>
+        <h1><a href="/">Online Store</a></h1><br>
+        <h2>Shipping Information</h2>
+        <div class="formAlign">
+            <form action="/addShippingInfo" method="POST">
+                <input type="hidden" name="form" value="shipping">
+                <table>
+                    <tr>
+                        <td><label for="firstname">First Name</label></td>
+                        <td><input type="text" name="firstname" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="lastname">Last Name</label></td>
+                        <td><input type="text" name="lastname" required></td>
+                    </tr>
+                    <tr class="blank_row"><td colspan="2"></td></tr>
+                    <tr>
+                        <td><label for="street">Street</label></td>
+                        <td><input type="text" name="street" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="city">City</label></td>
+                        <td><input type="text" name="city" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="state">State</label></td>
+                        <td><input type="text" name="state" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="country">Country</label></td>
+                        <td><input type="text" name="country" required></td>
+                    </tr>
+                    <tr>
+                        <td></td><td><button type="submit">Add Address</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+    </head>
+    <header>
+        <title>Online Store</title>
+    </header>
+    <body>
+        <h1><a href="/">Online Store</a></h1>
+        <br>
+        <button type="button" class="collapsible">Order History</button>
+        <div class="content" id="orderHistory">
+        </div>
+        <button type="button" class="collapsible">Payment Information</button>
+        <div class="content" id="paymentInfo">
+        </div>
+        <button type="button" class="collapsible">Shipping Information</button>
+        <div class="content", id="shippingInfo">
+            <a href="/addShippingInfo">Add Shipping Information</a>
+        </div>
+    </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<!-- Script for collapsible menus -->
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>
+
+
+<script>
+    var orderHistoryDoc = document.getElementById("orderHistory")
+    var orderHistoryHTML = ""
+    var paymentInfoDoc = document.getElementById("paymentInfo")
+    var paymentInfoHTML = ""
+    var shippingInfoDoc = document.getElementById("shippingInfo")
+    var shippingInfoHTML = ""
+    {% for orderName in orderNames %}
+        orderHistoryHTML += "<div id={{loop.index-1}}><table>"
+        {% set outerloop = loop %}
+        {% set total = [] %}
+        {% for name in orderName %}
+            
+            {% if total.append({'index': outerloop.index-1, "total":orderPrices[outerloop.index-1][loop.index-1] * orderQuantities[outerloop.index-1][loop.index-1]}) %}{% endif %}
+            orderHistoryHTML += "<tr><td>{{name}}</td><td>{{'$%.2f'|format(orderPrices[outerloop.index-1][loop.index-1])}}</td><td>x{{orderQuantities[outerloop.index-1][loop.index-1]}}</td></tr>"
+        
+        {% endfor %}
+        
+        orderHistoryHTML += "<tr><td></td><td></td><td>{{'$%.2f'|format(total | sum(attribute='total'))}}</td></tr>"
+        orderHistoryHTML += "<tr><td>Shipped To:</td><td>{{orderShipping[outerloop.index-1]}}</td></tr>"
+        orderHistoryHTML += "<tr><td>Creddit card ending in:</td><td>{{orderPayment[outerloop.index-1]}}</td></tr>"
+        orderHistoryHTML += "</table></div><br id={{loop.index-1}}>"
+    {% endfor %}
+    
+    {% for card in paymentInfo %}
+        paymentInfoHTML += "<p>{{card}}</p>"
+    {% endfor %}
+    paymentInfoHTML += '<a href="/addPaymentInfo">Add Payment Information</a>'
+    
+    {% for address in shippingInfo %}
+        shippingInfoHTML += "<p>{{address}}</p>"
+    {% endfor %}
+    shippingInfoHTML += '<a href="/addShippingInfo">Add Shipping Information</a>'
+    orderHistoryDoc.innerHTML = orderHistoryHTML
+    paymentInfoDoc.innerHTML = paymentInfoHTML
+    shippingInfoDoc.innerHTML = shippingInfoHTML
+</script>

@@ -1,0 +1,52 @@
+Products: Basic information about the product
+{
+    _id:
+    product_name: String
+    price: Double
+    product_weight: Double
+    weight_scale: String
+}
+{
+    _id:
+    first_name: String
+    last_name: String
+    payment_option: {
+        firstname: String
+        lastname: String
+        creditcard: Integer
+        cvv: Integer
+        month: Integer
+        year: Integer
+    }
+    address_list: {
+        firstname: String
+        lastname: String
+        street: String
+        city: String
+        state: String
+        country: String
+    }
+}
+{
+    _id: ObjectId
+    date_of_purchase: Date
+    customer_id: ObjectId
+    address: {
+        street: String
+        city: String
+        state: String
+        country: String
+    }
+    payment: {
+        firstname: String
+        lastname: String
+        creditcard: Integer
+        cvv: Integer
+        month: Integer
+        year: Integer
+    }
+    products: {
+        product_id: ObjectId
+        quantity: Integer
+    }
+}

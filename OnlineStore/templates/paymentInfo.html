@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+    </head>
+    <header>
+        <title>Online Store</title>
+    </header>
+    <body>
+        <h1><a href="/">Online Store</a></h1><br>
+        <h2>Payment Information</h2>
+        <div class="formAlign">
+            <form action="/addPaymentInfo" method="POST">
+                <input type="hidden" name="form" value="paymentinfo">
+                <table>
+                    <tr>
+                        <td><label for="firstname">First Name</label></td>
+                        <td><input type="text" name="firstname" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="lastname">Last Name</label></td>
+                        <td><input type="text" name="lastname" required></td>
+                    </tr>
+                    <tr class="blank_row"><td colspan="2"></td></tr>
+                    <tr>
+                        <td><label for="creditcard">Number on Card</label></td>
+                        <td><input type="text" name="creditcard" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="cvv">CVV</label></td>
+                        <td><input type="text" name="cvv" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="date">Experation Date</label></td>
+                        <td>
+                            <select name="month" id="month">
+                                <option value="1">01</option>
+                                <option value="2">02</option>
+                                <option value="3">03</option>
+                                <option value="4">04</option>
+                                <option value="5">05</option>
+                                <option value="6">06</option>
+                                <option value="7">07</option>
+                                <option value="8">08</option>
+                                <option value="9">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <select name="year" id="year">
+                                <option value="2020">20</option>
+                                <option value="2021">21</option>
+                                <option value="2022">22</option>
+                                <option value="2023">23</option>
+                                <option value="2024">24</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td><td><button type="submit">Add Card</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>   
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+    </head>
+    <header>
+        <title>Online Store</title>
+    </header>
+    <body>
+        <h1><a href="/">Online Store</a></h1><br>
+        <div class="loginbar">
+        {% if userdata is defined %}
+        <p>
+            Logged in as {{ userdata[0] }}<br>
+            <a href="account">Account</a><br>
+            <a href="cart">Cart</a><br>
+            <a href="addItem">Add Item</a><br>
+            <a href="logout">Logout</a>
+            </p>
+        {% else %}
+        <form action="/" method="POST">
+            <input type="hidden" name="form" value="login">
+            <label for="username">Username</label><br>
+            <input type="text" placeholder="Enter Username" name="username" required><br>
+            <label for="password">Password</label><br>
+            <input type="text" placeholder="Enter Password" name="password" required><br><br>
+            <button type="submit">Login</button>
+            <a href="register">Register</a>
+        </form>
+        {% endif %}
+        </div>
+        <div id="shop" class="shop">
+            
+        </div>
+    </body>
+</html>
+<template>
+    <div class="itemTemplate">
+        <form action="/addItemToCard">
+            <h1 id="itemName"></h1>
+            <p>Here is the item description</p>
+            <select name="type">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+            </select>
+            <label for="quantity">#</label>
+            <input type="number" placeholder="Enter Quantity" name="quantity" required>
+        </form>
+    </div>
+</template>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        } 
+        return "";
+    }
+</script>
+<script>
+    window.onload = function(){
+        $.ajax({
+            url: "getInventory",
+            contentType: "application/json",
+            type: "GET"
+        })
+        .done(function(result){
+            items = JSON.parse(result)
+            console.log(items)
+            items.forEach(function(item){
+                jsonItem = JSON.parse(item)
+                
+                document.getElementById("shop").innerHTML +=
+                    "<div class='cardlink'>" +
+                    "<a href='/item/" + jsonItem["_id"]["$oid"] + "' id='" + jsonItem["_id"]["$oid"] + "'>" +
+                    "<div class='card'><h4><b>" + jsonItem["product_name"] + "</b></h4>" +
+                    "<p>Price: $" + jsonItem["price"] + "<br>Weight: " + jsonItem["product_weight"] + jsonItem["weight_scale"] + "</p></div></a></div>"
+            })
+        })
+    }
+</script>

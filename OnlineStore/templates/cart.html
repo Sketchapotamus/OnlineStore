@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>   
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+    </head>
+    <header>
+        <title>Online Store</title>
+    </header>
+    <body>
+        <h1><a href="/">Online Store</a></h1><br>
+        <div id="cart">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="tableData">
+                
+                </tbody>
+            </table>
+        </div>
+        <div id="checkout">
+            <form action="cart/checkout" method="post">
+                <label for="card">Credit Card Ending In</label>
+                <select id="card" name="card"></select><br>
+                <label for="address">Ship To Address</label>
+                <select id="address" name="address"></select><br>
+                <button type="submit" id="checkoutButton">Checkout</button>
+            </form>
+        </div><br><br>
+        <div id="clearcart">
+            <form action="cart/clear" method="post">
+                <button type="submit">Clear Cart</button>
+            </form>
+        </div>
+    </body>
+</html>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    var paymentInfoDoc = document.getElementById("card")
+    var paymentInfoHTML = ""
+    var shippingInfoDoc = document.getElementById("address")
+    var shippingInfoHTML = ""
+    var cartDoc = document.getElementById("cart")
+    var cartData = document.getElementById("tableData")
+    var total = 0
+    {% for item in itemNames %}
+        var price = {{itemPrices[loop.index-1]}}
+        var quantity = {{quantity[loop.index-1]}}
+        total += price*quantity
+        cartData.innerHTML += "<tr><td>{{item}}</td><td>" + price.toFixed(2) + "</td><td>" + quantity + "</td><td>" + (price*quantity).toFixed(2) + "</td></tr>"
+    {% endfor %}
+    
+    cartData.innerHTML += "<tr><td></td><td></td><td>Total:</td><td>" + total.toFixed(2) +"</td></tbody></table>"
+    if(total == 0){
+        document.getElementById("checkoutButton").disabled = true;
+    }
+     
+    {% for card in paymentInfo %}
+        paymentInfoHTML += "<option value='{{loop.index-1}}'>{{card}}</option>"
+        console.log("{{card}}")
+    {% endfor %}
+     
+    {% for address in shippingInfo %}
+        shippingInfoHTML += "<option value='{{loop.index-1}}'>{{address}}</option>"
+    {% endfor %}
+    paymentInfoDoc.innerHTML = paymentInfoHTML
+    shippingInfoDoc.innerHTML = shippingInfoHTML
+</script>

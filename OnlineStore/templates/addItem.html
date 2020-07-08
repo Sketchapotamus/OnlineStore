@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+    </head>
+    <header>
+        <title>Online Store</title>
+    </header>
+    <body>
+        <h1><a href="/">Online Store</a></h1>
+        <h2>Add An Item To Inventory</h2>
+        <div class="formAlign">
+            <form action="/addItem" method="POST">
+                <input type="hidden" name="form" value="addItem">
+                <table>
+                    <tr>
+                        <td><label for="itemName">Product Name</label></td>
+                        <td><input type="text" name="itemName" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="itemDesc">Description</label></td>
+                        <td><textarea name="itemDesc" rows="10" cols="30"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><label for="price">Price</label></td>
+                        <td><input type="number" name="price" step="0.01" min="0" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="weight">Weight</label></td>
+                        <td><input type="number" name="weight" min="0" required></td>
+                        <td>
+                            <select name="weightOption">
+                                <option value="lbs">lbs</option>
+                                <option value="kg">kg</option>
+                                <option value="grams">grams</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td><td><button type="submit">Add Item</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+
+</html>
